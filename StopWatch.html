@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .stopwatch {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .display {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .start {
+            background-color: #28a745;
+            color: white;
+        }
+        .stop {
+            background-color: #dc3545;
+            color: white;
+        }
+        .reset {
+            background-color: #007bff;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        @media (max-width: 600px) {
+            .display {
+                font-size: 2em;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch">
+        <div class="display" id="display">00:00:00</div>
+        <button class="start" id="start">Start</button>
+        <button class="stop" id="stop">Stop</button>
+        <button class="reset" id="reset">Reset</button>
+    </div>
+    <script>
+        let timer;
+        let isRunning = false;
+        let seconds = 0;
+
+        function updateDisplay() {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            document.getElementById('display').textContent = 
+                `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        document.getElementById('start').addEventListener('click', function() {
+            if (!isRunning) {
+                isRunning = true;
+                timer = setInterval(() => {
+                    seconds++;
+                    updateDisplay();
+                }, 1000);
+            }
+        });
+
+        document.getElementById('stop').addEventListener('click', function() {
+            if (isRunning) {
+                isRunning = false;
+                clearInterval(timer);
+            }
+        });
+
+        document.getElementById('reset').addEventListener('click', function() {
+            isRunning = false;
+            clearInterval(timer);
+            seconds = 0;
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>
